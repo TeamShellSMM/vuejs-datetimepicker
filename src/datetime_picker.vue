@@ -1,27 +1,27 @@
 <template>
   <div :style='{width:width}' class="datetime-picker"  v-on:click='calendarClicked($event)'  v-on:blur='toggleCal' >
     <div>
-      <input type='text' :readonly="readonly" id='tj-datetime-input' :required="required" :value="date"  :name='name' v-on:click='toggleCal' autocomplete='off'  />
+      <input class="form-control date-picker-form-control" type='text' :readonly="readonly" id='tj-datetime-input' :required="required" :value="date"  :name='name' v-on:click='toggleCal' autocomplete='off' :placeholder="placeholder"  />
       <div class='calender-div' :class='{noDisplay: hideCal}'>
         <div :class='{noDisplay: hideDate}'>
-          <div class='year-month-wrapper'>
+          <div class='year-month-wrapper' :class="team + '-primary-bg'">
             <div class='month-setter'>
-              <button type='button' class='nav-l' v-on:click='leftYear'>&#x3C;</button>
+              <button type='button' class='nav-l' :class="team + '-primary-bg'" v-on:click='leftYear'>&#x3C;</button>
               <span class='year'>{{year}}</span>
-              <button type='button' class='nav-r' v-on:click='rightYear' >&#x3E;</button>
+              <button type='button' class='nav-r' :class="team + '-primary-bg'" v-on:click='rightYear' >&#x3E;</button>
             </div>
             <div class='month-setter'>
-              <button type='button' class='nav-l' v-on:click='leftMonth'>&#x3C;</button>
+              <button type='button' class='nav-l' :class="team + '-primary-bg'" v-on:click='leftMonth'>&#x3C;</button>
               <span class='month'>{{month}}</span>
-              <button type='button' class='nav-r' v-on:click='rightMonth'>&#x3E;</button>
+              <button type='button' class='nav-r' :class="team + '-primary-bg'" v-on:click='rightMonth'>&#x3E;</button>
             </div>
           </div>
           <div class='headers'>
-            <span class='days' v-for="port in days" :key="port">{{port}}</span>
+            <span class='days' v-for="port in days" :key="port" :class="team + '-primary-fg'">{{port}}</span>
           </div>
           <div>
             <div class="week" v-for="(week, weekIndex) in weeks" :key="weekIndex">
-              <span class="port" v-for="(day, dayIndex) in week" :key="dayIndex" v-on:click='setDay(weekIndex*7 + dayIndex, day)' :class='{activePort: (weekIndex*7 + dayIndex) === activePort}'>
+              <span class="port" v-for="(day, dayIndex) in week" :key="dayIndex" v-on:click='setDay(weekIndex*7 + dayIndex, day)' :class='(((weekIndex*7 + dayIndex) === activePort) ? "activePort " + team + "-primary-bg" : "")'>
                 {{day}}
               </span>
             </div>
@@ -54,8 +54,8 @@
             <div v-on:click='changePeriod'>{{period}}</div>
           </div>
         </div>
-        <button type='button' v-on:click='clearDate' class='okButton'>Clear</button>
-        <button type='button' v-on:click='setDate' class='okButton ok'>OK</button>
+        <button type='button' v-on:click='clearDate' class='okButton' :class="team + '-primary-fg'">Clear</button>
+        <button type='button' v-on:click='setDate' class='okButton ok' :class="team + '-primary-fg'">OK</button>
       </div>
     </div>
   </div>
@@ -98,6 +98,14 @@ export default {
     readonly: {
       type: Boolean,
       default: false
+    },
+    placeholder: {
+      type: String,
+      default: ""
+    },
+    team: {
+      type: String,
+      default: "teamshell"
     },
     firstDayOfWeek: {
       default: 0,
@@ -535,14 +543,6 @@ export default {
   .year-month-wrapper{
     background-color: #ed4d00;
   }
-
-  input{
-    min-width: 226px;
-    width:100%;
-    height: 30px;
-    padding: 3px;
-    border: 1px solid #ddd;
-  }
   .datetime-picker{
     position: relative;
   }
@@ -575,11 +575,9 @@ export default {
     font-weight: bold;
   }
   .port:hover{
-    color: #ed4d00;
     font-weight: bold;
   }
   .activePort, .activePort:hover {
-    background-color: #ed4d00;
     color: white;
   }
   .month-setter, .year-setter{
