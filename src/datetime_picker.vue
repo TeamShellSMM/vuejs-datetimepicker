@@ -1,7 +1,7 @@
 <template>
   <div :style='{width:width}' class="datetime-picker"  v-on:click='calendarClicked($event)'  v-on:blur='toggleCal' >
     <div>
-      <input class="form-control date-picker-form-control" type='text' :readonly="readonly" id='tj-datetime-input' :required="required" :value="date"  :name='name' v-on:click='toggleCal' autocomplete='off' :placeholder="placeholder"  />
+      <input class="form-control date-picker-form-control tj-datetime-input" type='text' :readonly="readonly" :required="required" :value="date"  :name='name' v-on:click='toggleCal' autocomplete='off' :placeholder="placeholder"  />
       <div class='calender-div' :class='{noDisplay: hideCal}'>
         <div :class='{noDisplay: hideDate}'>
           <div class='year-month-wrapper' :class="team + '-primary-bg'">
@@ -29,7 +29,7 @@
         </div>
         <div class='time-picker' :class='{noDisplay: hideTime}'>
           <div class='hour-selector' >
-            <div v-on:click='showHourSelector' id='j-hour'>{{periodStyle === 12 && hour > 12 ? hour - 12 : hour}}</div>
+            <div v-on:click='showHourSelector' class='j-hour'>{{periodStyle === 12 && hour > 12 ? hour - 12 : hour}}</div>
             <div class='scroll-hider' ref='hourScrollerWrapper' :class='{showSelector: hourSelectorVisible}'>
               <ul ref='hourScroller'>
                 <li v-for="(h, index) in hours" :key="index" :class='{active: index === hourIndex}' v-on:click='setHour(index, true)' >{{h}}</li>
@@ -40,7 +40,7 @@
             <span>:</span>
           </div>
           <div class='minute-selector' >
-            <div v-on:click='showMinuteSelector' id='j-minute'>{{minute}}</div>
+            <div v-on:click='showMinuteSelector' class='j-minute'>{{minute}}</div>
             <div class='scroll-hider' ref='minuteScrollerWrapper' :class='{showSelector: minuteSelectorVisible}'>
               <ul ref='minuteScroller'>
                 <li v-for="(m, index) in minutes" :key="index" :class='{active: index === minuteIndex}' v-on:click='setMinute(index, true)'>{{m}}</li>
@@ -281,7 +281,7 @@ export default {
       this.period = this.period === AM ? PM : AM
     },
     calendarClicked (event) {
-      if (event.target.id !== 'j-hour' && event.target.id !== 'j-minute') {
+      if (event.target.classList.contains("j-hour") && event.target.classList.contains("j-minute")) {
         this.minuteSelectorVisible = false
         this.hourSelectorVisible = false
       }
@@ -291,7 +291,7 @@ export default {
       }
     },
     documentClicked (event) {
-      if (event.target.id !== 'tj-datetime-input') {
+      if (event.target.classList.contains("tj-datetime-input")) {
         this.hideCal = true
       }
     },
