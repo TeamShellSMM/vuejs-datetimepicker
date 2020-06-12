@@ -108,7 +108,7 @@ export default {
       default: "teamshell"
     },
     firstDayOfWeek: {
-      default: 0,
+      default: 1,
       validator: function(value) {
         try {
           const val = parseInt(value, 10)
@@ -126,7 +126,7 @@ export default {
       date: this.value,
       hideCal: true,
       activePort: null,
-      timeStamp: new Date(),
+      timeStamp: new Date(new Date().getTime() + new Date().getTimezoneOffset() * 60 * 1000),
       months: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
       days: [],
       monthIndex: 0,
